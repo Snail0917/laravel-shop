@@ -244,10 +244,18 @@
                         'cvv': this.cvv,
                         'expirationMonth': this.expirationMonth,
                         'expirationYear': this.expirationYear,
+                        'amount': this.items.totalAmount,
+                        'order': this.items,
                     });
 
-                    console.log(response.data);
-
+                    if(response.data.success) {
+                        this.$toast.success(response.data.success);
+                    } else {
+                        this.$toast.success(response.data.error);
+                    }
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1500);
                 } else {
                     this.$toast.error('Please fill your billing information!');
                     return;

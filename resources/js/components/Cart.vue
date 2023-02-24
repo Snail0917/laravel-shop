@@ -18,7 +18,6 @@
         mounted() {
             this.emitter.on('changeInCart', (item) => {
                 this.itemCount = item;
-                console.log(item);
             })
         },
         methods: {

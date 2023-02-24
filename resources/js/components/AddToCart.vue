@@ -22,7 +22,6 @@
                 //Checking if user logged in.
                 if(this.userId == 0){
                     this.$toast.error('You need to login, To add this product in Cart!');
-                    // alert('You need to login, To add this product in Cart!');
                     return;
                 }
 
