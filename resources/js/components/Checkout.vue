@@ -227,7 +227,7 @@
                 this.items = response.data;
             },
             async getUserAddress() {
-                if(this.firstName != '' && this.address != '' && this.cardNumber && this.cvv) {
+                if(this.firstName != '' && this.address != '' && this.cardNumber && this.cvv && this.email) {
                     //Process payment.
                     let response = await axios.post('/process/user/payment', {
                         'country': this.country,

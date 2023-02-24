@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Stripe;
 use App\Models\Cart;
 use Stripe\Error\Card;
+use App\Mail\OrderMail;
 use App\Models\Product;
 use App\Models\Processing;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CartsController extends Controller
 {
@@ -144,13 +147,23 @@ class CartsController extends Controller
 
         $amount = $request->get('amount');
         $orders = $request->get('order');
+
         $ordersArray = [];
+
+        //For order confirmation email.
+        $orderDetail = ['orders'=>[]];
+        $orderDetail['firstName'] = $request->get('firstName');
+        $orderDetail['lastName'] = $request->get('lastName');
+        $orderDetail['email'] = $request->get('email');
+        $orderDetail['amount'] = $amount;
 
         //Getting order details.
         foreach($orders as $order) {
             if (isset($order['id'])) {
                 $ordersArray[$order['id']]['order_id'] = $order['id'];
                 $ordersArray[$order['id']]['quantity'] = $order['quantity'];
+
+                $orderDetail['orders'][] = $order;
             }
         }
 
@@ -225,14 +238,27 @@ class CartsController extends Controller
             ]);
 
             if($processingDetails) {
+dd($orderDetail);
+                $orderMail = $this->sendOrderConfirmationMail($orderDetail);
+
+                if($orderMail) {
+                    dd($orderMail);
+                } else {
+                    dd('bad');
+                }
+
                 //Clear the cart after payment success.
-                Cart::where('user_id', $client_id)->delete();
-                return ['success' => 'Order completed successfully!'];
+                // Cart::where('user_id', $client_id)->delete();
+                // return ['success' => 'Order completed successfully!'];
             }
 
         } else {
-            return ['error' => 'Order failed contact support!'];
+            // return ['error' => 'Order failed contact support!'];
         }
+    }
+
+    public function sendOrderConfirmationMail($order) {
+        Mail::to($order['email'])->send(new OrderMail($order));
     }
 
 }
