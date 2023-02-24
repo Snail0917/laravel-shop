@@ -238,22 +238,16 @@ class CartsController extends Controller
             ]);
 
             if($processingDetails) {
-dd($orderDetail);
+
                 $orderMail = $this->sendOrderConfirmationMail($orderDetail);
 
-                if($orderMail) {
-                    dd($orderMail);
-                } else {
-                    dd('bad');
-                }
-
                 //Clear the cart after payment success.
-                // Cart::where('user_id', $client_id)->delete();
-                // return ['success' => 'Order completed successfully!'];
+                Cart::where('user_id', $client_id)->delete();
+                return ['success' => 'Order completed successfully!'];
             }
 
         } else {
-            // return ['error' => 'Order failed contact support!'];
+            return ['error' => 'Order failed contact support!'];
         }
     }
 
