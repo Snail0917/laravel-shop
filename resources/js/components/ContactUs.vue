@@ -69,7 +69,7 @@
                     if(response.data.success) {
                         this.$toast.success(response.data.success);
                     } else {
-                        this.$toast.success(response.data.error);
+                        this.$toast.error(response.data.error);
                     }
                 } else {
                     this.$toast.error('Please fill your contact information!');
