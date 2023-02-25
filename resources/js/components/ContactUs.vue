@@ -44,11 +44,27 @@
         methods: {
             async getContactUs() {
                 if(this.name != '' && this.email != '' && this.message) {
+                    let loader = this.$loading.show({
+                        // Optional parameters
+                        container: this.fullPage ? null : this.$refs.formContainer,
+                        canCancel: true,
+                        onCancel: this.onCancel,
+                        color: '#fe7865',
+                        height: 100,
+                        width : 100,
+                        loader: 'dots',
+                    });
+
+                    setTimeout(() => {
+                        loader.hide()
+                    }, 5000)
+
                     let response = await axios.post('/contact/send-mail', {
                         'name': this.name,
                         'email': this.email,
                         'message': this.message,
                     });
+
 
                     if(response.data.success) {
                         this.$toast.success(response.data.success);

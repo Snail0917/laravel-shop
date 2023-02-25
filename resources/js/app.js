@@ -37,6 +37,10 @@ import mitt from 'mitt';
 const emitter = mitt();
 app.config.globalProperties.emitter = emitter;
 
+import {LoadingPlugin} from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
+app.use(LoadingPlugin);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
