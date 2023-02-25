@@ -27,6 +27,9 @@ app.component('cart_total', Cart);
 import Checkout from './components/Checkout.vue';
 app.component('checkout', Checkout);
 
+import ContactUs from './components/ContactUs.vue';
+app.component('contact-us', ContactUs);
+
 import Toaster from '@meforma/vue-toaster';
 
 
